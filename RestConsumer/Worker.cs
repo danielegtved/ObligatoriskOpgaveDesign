@@ -30,6 +30,12 @@ namespace RestConsumer
                 table.AddRow(facility.Hotel_No, facility.Bar, facility.SwimmingPool, facility.TableTennis, facility.PoolTable, facility.Restaurant);
             }
             table.Write(Format.Default);
+
+            DeleteFacility(5);
+            CreateFacility(new Facility(5, 't','t','t','t','t'));
+            GetAllFacilities();
+
+
         }
 
         private List<Facility> GetAllFacilities()
@@ -68,12 +74,7 @@ namespace RestConsumer
                 Task<HttpResponseMessage> deleteAsync = client.DeleteAsync(URI + "/" + id);
 
                 HttpResponseMessage resp = deleteAsync.Result;
-                if (resp.IsSuccessStatusCode)
-                {
-                    String jsonStr = resp.Content.ReadAsStringAsync().Result;
-                    ok = JsonConvert.DeserializeObject<bool>(jsonStr);
-                }
-                else
+                if (!resp.IsSuccessStatusCode)
                 {
                     ok = false;
                 }
@@ -93,12 +94,7 @@ namespace RestConsumer
                 Task<HttpResponseMessage> postAsync = client.PostAsync(URI, content);
 
                 HttpResponseMessage resp = postAsync.Result;
-                if (resp.IsSuccessStatusCode)
-                {
-                    String jsonResStr = resp.Content.ReadAsStringAsync().Result;
-                    ok = JsonConvert.DeserializeObject<bool>(jsonResStr);
-                }
-                else
+                if (!resp.IsSuccessStatusCode)
                 {
                     ok = false;
                 }
@@ -118,12 +114,7 @@ namespace RestConsumer
                 Task<HttpResponseMessage> putAsync = client.PutAsync(URI + "/" + id, content);
 
                 HttpResponseMessage resp = putAsync.Result;
-                if (resp.IsSuccessStatusCode)
-                {
-                    String jsonResStr = resp.Content.ReadAsStringAsync().Result;
-                    ok = JsonConvert.DeserializeObject<bool>(jsonResStr);
-                }
-                else
+                if (!resp.IsSuccessStatusCode)
                 {
                     ok = false;
                 }
