@@ -16,12 +16,9 @@ namespace RestConsumer
 
         public void Start()
         {
-            List<Facility> facilities = GetAllFacilities();
+            DeleteFacility(5);
 
-            foreach (Facility facility in facilities)
-            {
-                Console.WriteLine(facility.Hotel_No);
-            }
+            List<Facility> facilities = GetAllFacilities();
 
             var table = new ConsoleTable("Hotel_No", "Bar", "Swimming_Pool", "Table_Tennis", "Pool_Table", "Restaurant");
 
@@ -31,11 +28,23 @@ namespace RestConsumer
             }
             table.Write(Format.Default);
 
-            DeleteFacility(5);
             CreateFacility(new Facility(5, 't','t','t','t','t'));
-            GetAllFacilities();
 
+            Console.WriteLine("Laver en facility med id=5");
 
+            UpdateFacility(5, new Facility(5, 'F', 'F', 'F', 'F', 'F'));
+
+            Console.WriteLine("Opdaterer en facility med id=5");
+           
+            facilities = GetAllFacilities();
+
+            table = new ConsoleTable("Hotel_No", "Bar", "Swimming_Pool", "Table_Tennis", "Pool_Table", "Restaurant");
+
+            foreach (Facility facility in facilities)
+            {
+                table.AddRow(facility.Hotel_No, facility.Bar, facility.SwimmingPool, facility.TableTennis, facility.PoolTable, facility.Restaurant);
+            }
+            table.Write(Format.Default);
         }
 
         private List<Facility> GetAllFacilities()
